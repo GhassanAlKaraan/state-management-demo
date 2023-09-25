@@ -59,10 +59,19 @@ class HomePage extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 AddButton(onTap: () {
-                  Provider.of<DataClass>(context, listen: false).incrementX();
+                  if (context.read<DataClass>().x < 5) {
+                    context.read<DataClass>().incrementX();
+                    // Provider.of<DataClass>(context, listen: false).incrementX();
+                  } else {
+                    utils.showAlert(context, "5 is the maximum");
+                  }
                 }),
                 RemoveButton(onTap: () {
-                  Provider.of<DataClass>(context, listen: false).decrementX();
+                  if (context.read<DataClass>().x > -5) {
+                    context.read<DataClass>().decrementX();
+                  } else {
+                    utils.showAlert(context, "-5 is the minimum");
+                  }
                 }),
                 ElevatedButton(
                     onPressed: () {

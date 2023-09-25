@@ -1,5 +1,6 @@
 import 'package:demo10/components/add_button.dart';
 import 'package:demo10/components/remove_button.dart';
+import 'package:demo10/my_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -7,6 +8,8 @@ import '../data_class.dart';
 
 class NextPage extends StatelessWidget {
   NextPage({super.key});
+
+  final utils = Utility();
 
   @override
   Widget build(BuildContext context) {
@@ -55,10 +58,22 @@ class NextPage extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 AddButton(onTap: () {
-                  Provider.of<DataClass>(context, listen: false).incrementX();
+                  // Provider.of<DataClass>(context, listen: false).incrementX();
+                  if (context.read<DataClass>().x < 5) {
+                    context.read<DataClass>().incrementX();
+                    // Provider.of<DataClass>(context, listen: false).incrementX();
+                  } else {
+                    utils.showAlert(context, "5 is the maximum");
+                  }
                 }),
                 RemoveButton(onTap: () {
-                  Provider.of<DataClass>(context, listen: false).decrementX();
+                  // Provider.of<DataClass>(context, listen: false).decrementX();
+
+                  if (context.read<DataClass>().x > -5) {
+                    context.read<DataClass>().decrementX();
+                  } else {
+                    utils.showAlert(context, "-5 is the minimum");
+                  }
                 }),
                 ElevatedButton(
                     onPressed: () {

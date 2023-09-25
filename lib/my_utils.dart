@@ -42,6 +42,28 @@ class Utility {
     );
   }
 
+  Future<void> showAlert(
+      BuildContext context, String message) async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // Prevents closing by tapping outside
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(message),
+          actions: [
+            TextButton(
+              child: const Text('Got it', style: TextStyle(fontSize: 18),),
+              onPressed: () {
+                Navigator.of(context).pop(); // Close the dialog
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+
   Future<void> goToPage(BuildContext context, Widget page) async {
     Navigator.of(context).push(MaterialPageRoute(
         builder: (context) => page));
