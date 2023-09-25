@@ -1,25 +1,25 @@
 import 'package:demo10/components/add_button.dart';
 import 'package:demo10/components/remove_button.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-class HomePage extends StatelessWidget {
-  HomePage({super.key});
+import '../data_class.dart';
 
-  int x = 0;
+class NextPage extends StatelessWidget {
+  NextPage({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: const Icon(Icons.shopping_cart),
-        title: const Text("Shopping Cart"),
+        title: const Text("Next Page"),
       ),
       body: Center(
           child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Column(
           children: [
-            Divider(
+            const Divider(
               thickness: 2,
             ),
             const SizedBox(
@@ -32,16 +32,20 @@ class HomePage extends StatelessWidget {
                   "Total: ",
                   style: TextStyle(fontSize: 22),
                 ),
-                Text(
-                  x.toString(),
-                  style: const TextStyle(fontSize: 22),
+                Consumer<DataClass>(
+                  builder: (context, dataClass, child) {
+                    return Text(
+                      "${dataClass.x}",
+                      style: const TextStyle(fontSize: 22),
+                    );
+                  },
                 ),
               ],
             ),
             const SizedBox(
               height: 50,
             ),
-            Divider(
+            const Divider(
               thickness: 2,
             ),
             const SizedBox(
@@ -50,20 +54,26 @@ class HomePage extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                AddButton(onTap: () {}), //todo: add function
-                RemoveButton(onTap: () {}), //todo: add function
+                AddButton(onTap: () {
+                  Provider.of<DataClass>(context, listen: false).incrementX();
+                }),
+                RemoveButton(onTap: () {
+                  Provider.of<DataClass>(context, listen: false).decrementX();
+                }),
                 ElevatedButton(
-                    onPressed: () {}, //todo: add function
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
                     child: const Row(
                       children: [
-                        Text(
-                          "Next Page",
-                          style: TextStyle(fontSize: 18),
-                        ),
+                        Icon(Icons.arrow_left),
                         SizedBox(
                           width: 10,
                         ),
-                        Icon(Icons.arrow_right),
+                        Text(
+                          "Home Page",
+                          style: TextStyle(fontSize: 18),
+                        ),
                       ],
                     ))
               ],

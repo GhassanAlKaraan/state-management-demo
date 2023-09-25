@@ -1,18 +1,22 @@
 import 'package:demo10/components/add_button.dart';
 import 'package:demo10/components/remove_button.dart';
+import 'package:demo10/data_class.dart';
+import 'package:demo10/my_utils.dart';
+import 'package:demo10/pages/next_page.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-class NextPage extends StatelessWidget {
-  NextPage({super.key});
+class HomePage extends StatelessWidget {
+  HomePage({super.key});
 
-  int x = 0;
+  final utils = Utility();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         leading: const Icon(Icons.shopping_cart),
-        title: const Text("Next Page"),
+        title: const Text("Shopping Cart"),
       ),
       body: Center(
           child: Padding(
@@ -32,9 +36,13 @@ class NextPage extends StatelessWidget {
                   "Total: ",
                   style: TextStyle(fontSize: 22),
                 ),
-                Text(
-                  x.toString(),
-                  style: const TextStyle(fontSize: 22),
+                Consumer<DataClass>(
+                  builder: (context, dataClass, child) {
+                    return Text(
+                      "${dataClass.x}",
+                      style: const TextStyle(fontSize: 22),
+                    );
+                  },
                 ),
               ],
             ),
@@ -50,20 +58,26 @@ class NextPage extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                AddButton(onTap: () {}), //todo: add function
-                RemoveButton(onTap: () {}), //todo: add function
+                AddButton(onTap: () {
+                  Provider.of<DataClass>(context, listen: false).incrementX();
+                }),
+                RemoveButton(onTap: () {
+                  Provider.of<DataClass>(context, listen: false).decrementX();
+                }),
                 ElevatedButton(
-                    onPressed: () {}, //todo: add function
+                    onPressed: () {
+                      utils.goToPage(context, NextPage());
+                    },
                     child: const Row(
                       children: [
-                        Icon(Icons.arrow_left),
+                        Text(
+                          "Next Page",
+                          style: TextStyle(fontSize: 18),
+                        ),
                         SizedBox(
                           width: 10,
                         ),
-                        Text(
-                          "Home Page",
-                          style: TextStyle(fontSize: 18),
-                        ),
+                        Icon(Icons.arrow_right),
                       ],
                     ))
               ],
